@@ -1,8 +1,5 @@
-**Title**
-=========
-
-**Abstract**
-============
+# Title
+## Abstract
 
 Political parties are often considered to be an essential part of
 democratic systems. Their existence is justified in two ways: First,
@@ -19,8 +16,7 @@ answer this question by analysing the voting behavior of members of the
 national council, the larger of the two legislative chambers, over the
 course of 12 years.
 
-**Research questions**
-======================
+## Research questions
 
 As stated in the abstract, our main research question is the following:
 
@@ -32,29 +28,21 @@ analysis. Each of them raises practical questions that can be answered
 using our data, which are listed below.
 
 1.  *Do the political parties efficiently group politicians with common
-    interests?*
+    interests?* 
+    Can we recover the existing political parties using politician voting behavior without further a priori knowledge? 
+    Do we observe divides within existing political parties?
 
-Can we recover the existing political parties using politician voting
-behavior without further a priori knowledge?
-
-Do we observe divides within existing political parties?
-
-2.  *Is having party support useful to furthering a political agenda?\
-    *Do politicians show up to vote for motions that come from their own
-    party?*\
-    *Do people tend to vote yes for motions that come from members of
-    their own party?
+2.  *Is having party support useful to furthering a political agenda?*
+    Do politicians show up to vote for motions that come from their own party?
+    Do people tend to vote yes for motions that come from members of their own party?
 
 3.  *Are political parties essential for choosing the executive federal
-    council?\
-    *How are members of the federal council related to their positioning
-    within a party?
+    council?*
+    How are members of the federal council related to their positioning within a party?
+    If we were to abolish political parties, who would be ideal members of the federal council to best represent the voting population?
 
-If we were to abolish political parties, who would be ideal members of
-the federal council to best represent the voting population?
 
-**Dataset**
-===========
+## Dataset
 
 Our research is based on two datasets:
 
@@ -81,16 +69,15 @@ datasets on the council members. Furthermore, we have to find optimal
 representations of the data for the data analysis part. Both steps are
 further described in the internal milestones.
 
-***Sources:***
+**Sources:**
 
 1.  [[https://www.parlament.ch/en/ratsbetrieb/abstimmungen/abstimmungs-datenbank-nr]{.underline}](https://www.parlament.ch/en/ratsbetrieb/abstimmungen/abstimmungs-datenbank-nr)
 
 2.  [[https://www.parlament.ch/en/ratsmitglieder?k=PdMemberCouncilCouncil:1+PdMemberCouncilActive:true\#k=]{.underline}](https://www.parlament.ch/en/ratsmitglieder?k=PdMemberCouncilCouncil:1+PdMemberCouncilActive:true#k=)
 
-**A list of internal milestones up until project milestone 2**
-==============================================================
+## A list of internal milestones up until project milestone 2
 
-***Data exploration:***
+**Data exploration:**
 
 -   What information do we have access to?
 
@@ -103,7 +90,7 @@ further described in the internal milestones.
 -   Join data about politicians (age, party, etc.) with the vote
     dataset.
 
-***Data wrangling:***
+**Data wrangling:**
 
 -   Find inconsistent, incoherent, missing values and find appropriate
     ways of dealing with them
@@ -112,7 +99,7 @@ further described in the internal milestones.
 
 -   Handle abstentions and absences for numerical analysis
 
-***Data Analysis:***
+**Data Analysis:**
 
 Part 1:
 
@@ -136,7 +123,6 @@ Part 3:
 
 -   Determine ideal members of federal council as cluster means when performing k-means clustering with k=7.
 
-**Questions for TAs**
-=====================
+## Questions for TAs
 
 -   Do you have any additional datasets in your laboratory that could provide interesting information on the subject?
