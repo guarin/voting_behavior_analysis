@@ -71,9 +71,9 @@ further described in the internal milestones.
 
 **Sources:**
 
-1.  [[https://www.parlament.ch/en/ratsbetrieb/abstimmungen/abstimmungs-datenbank-nr]{.underline}](https://www.parlament.ch/en/ratsbetrieb/abstimmungen/abstimmungs-datenbank-nr)
+1.  [https://www.parlament.ch/en/ratsbetrieb/abstimmungen/abstimmungs-datenbank-nr](https://www.parlament.ch/en/ratsbetrieb/abstimmungen/abstimmungs-datenbank-nr)
 
-2.  [[https://www.parlament.ch/en/ratsmitglieder?k=PdMemberCouncilCouncil:1+PdMemberCouncilActive:true\#k=]{.underline}](https://www.parlament.ch/en/ratsmitglieder?k=PdMemberCouncilCouncil:1+PdMemberCouncilActive:true#k=)
+2.  [https://www.parlament.ch/en/ratsmitglieder?k=PdMemberCouncilCouncil:1+PdMemberCouncilActive:true\#k=](https://www.parlament.ch/en/ratsmitglieder?k=PdMemberCouncilCouncil:1+PdMemberCouncilActive:true#k=)
 
 ## A list of internal milestones up until project milestone 2
 
