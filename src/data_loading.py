@@ -1,3 +1,9 @@
+"""Loads/saves data from 'data' and 'generated' folders.
+
+    Usage:
+    full_votes = data_loading.full_votes()
+"""
+
 import pandas as pd
 import datetime as dt
 import gzip

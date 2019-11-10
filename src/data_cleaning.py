@@ -1,3 +1,11 @@
+"""Collection of data cleaning functions.
+Converts files in 'data' folder into cleaned datasets in 'generated' folder.
+
+    Usage:
+    # from terminal in 'src' folder
+    $ python data_cleaning.py
+"""
+
 import pandas as pd
 import data_loading
 import sys

@@ -3,6 +3,10 @@ import pandas as pd
 
 
 def create_votes(full_votes=None):
+    """Returns votes Dataframe with the votation identifier as index,
+    the council members as columns and the votes of the members as values.
+    """
+
     if full_votes is None:
         full_votes = data_loading.full_votes()
 
