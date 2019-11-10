@@ -8,6 +8,7 @@ Converts files in 'data' folder into cleaned datasets in 'generated' folder.
 
 import pandas as pd
 import data_loading
+import create_votes
 import sys
 
 
@@ -173,7 +174,13 @@ def _full_votes_new_entries(
 if __name__ == "__main__":
     # clean all data if no arguments are passed
     if len(sys.argv) == 1:
-        to_clean = ["vote_data", "members", "national_council_members", "full_votes"]
+        to_clean = [
+            "vote_data",
+            "members",
+            "national_council_members",
+            "full_votes",
+            "votes",
+        ]
     else:
         to_clean = sys.argv[1:]
 
@@ -200,3 +207,6 @@ if __name__ == "__main__":
     if "full_votes" in to_clean:
         full_votes = get_full_votes(vote_data, national_council_members)
         data_loading.save_full_votes(full_votes)
+
+    if "votes" in to_clean:
+        votes = create_votes.create_votes(full_votes)
