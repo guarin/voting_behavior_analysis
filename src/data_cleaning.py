@@ -210,3 +210,4 @@ if __name__ == "__main__":
 
     if "votes" in to_clean:
         votes = create_votes.create_votes(full_votes)
+        data_loading.save_votes(votes)
