@@ -207,6 +207,8 @@ if __name__ == "__main__":
     if "full_votes" in to_clean:
         full_votes = get_full_votes(vote_data, national_council_members)
         data_loading.save_full_votes(full_votes)
+    else:
+        full_votes = data_loading.full_votes()
 
     if "votes" in to_clean:
         votes = create_votes.create_votes(full_votes)

@@ -27,6 +27,6 @@ def create_votes(full_votes=None):
         + full_votes["VoteRegistrationNumber"].astype(str)
     )
     votes = temp.groupby(["Id", "CouncillorId"]).aggregate("first").unstack()
-    votes.columns = votes.columns.get_level_values(0)
+    votes.columns = votes.columns.get_level_values(1)
     votes = votes.fillna(-1).astype(int)
     return votes
