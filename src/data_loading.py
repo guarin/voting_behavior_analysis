@@ -287,7 +287,7 @@ def votes(file_name=None):
         file_name = VOTES_FILE_NAME
 
     path = GENERATED_FOLDER + file_name
-    return pd.read_csv(path)
+    return pd.read_csv(path, index_col="Id")
 
 
 def save_votes(votes, file_name=None):
