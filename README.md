@@ -1,4 +1,4 @@
-# Title
+# Swiss Political Parties : a Study of Relevance. 
 ## Abstract
 
 Political parties are often considered to be an essential part of
@@ -126,3 +126,6 @@ Part 3:
 ## Questions for TAs
 
 -   Do you have any additional datasets in your laboratory that could provide interesting information on the subject?
+
+## Milestone 2
+Milestone 2 work can be found under src/milestone2.ipynb 
