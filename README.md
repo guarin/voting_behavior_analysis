@@ -1,4 +1,5 @@
-# Swiss Political Parties : a Study of Relevance. 
+# Swiss Political Parties : a Study of Relevance.
+## [Website](https://gfepfl.github.io/alternative-fuer-demokratie/)
 ## Abstract
 
 Political parties are often considered to be an essential part of
