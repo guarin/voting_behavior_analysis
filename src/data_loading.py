@@ -5,14 +5,11 @@
 """
 
 import pandas as pd
-import datetime as dt
 import gzip
 import numpy as np
 
-
 DATA_FOLDER = "../data/"
 GENERATED_FOLDER = "../generated/"
-
 
 SOURCE_VOTE_DATA_DTYPES = {
     "AffairShortId": np.int,
@@ -57,7 +54,7 @@ def _read_file(file_name):
     with gzip.open(path, "rt") as file:
         for line in file:
             columns = line.split('","')
-            yield [column.strip(u'"\n\ufeff') for column in columns]
+            yield [column.strip('"\n\ufeff') for column in columns]
 
 
 def _load(file_name):
@@ -92,7 +89,7 @@ VOTE_DATA_DTYPES = {
 }
 
 VOTE_DATA_DATE_COLUMNS = ["VoteDate"]
-VOTE_DATA_FILE_NAME = "vote_data.csv.gz"
+VOTE_DATA_FILE_NAME = "vote_data.pickle.gz"
 
 
 def vote_data(file_name=None):
@@ -100,12 +97,13 @@ def vote_data(file_name=None):
         file_name = VOTE_DATA_FILE_NAME
 
     path = GENERATED_FOLDER + file_name
-    df = pd.read_csv(
-        path,
-        dtype=VOTE_DATA_DTYPES,
-        parse_dates=VOTE_DATA_DATE_COLUMNS,
-        date_parser=dt.datetime.fromisoformat,
-    )
+    # df = pd.read_csv(
+    #     path,
+    #     dtype=VOTE_DATA_DTYPES,
+    #     parse_dates=VOTE_DATA_DATE_COLUMNS,
+    #     date_parser=dt.datetime.fromisoformat,
+    # )
+    df = pd.read_pickle(path)
     return df
 
 
@@ -114,7 +112,8 @@ def save_vote_data(df, file_name=None):
         file_name = VOTE_DATA_FILE_NAME
 
     path = GENERATED_FOLDER + file_name
-    df.to_csv(path, index=False)
+    # df.to_csv(path, index=False)
+    df.to_pickle(path)
 
 
 SOURCE_MEMBERS_DTYPES = {
@@ -254,7 +253,7 @@ FULL_VOTES_DATE_COLUMNS = [
     "DateOfDeath",
 ]
 
-FULL_VOTES_FILE_NAME = "full_votes.csv.gz"
+FULL_VOTES_FILE_NAME = "full_votes.pickle.gz"
 
 
 def full_votes(file_name=None):
@@ -262,12 +261,7 @@ def full_votes(file_name=None):
         file_name = FULL_VOTES_FILE_NAME
 
     path = GENERATED_FOLDER + file_name
-    df = pd.read_csv(path, dtype=FULL_VOTES_DTYPES, parse_dates=FULL_VOTES_DATE_COLUMNS)
-    date_columns = [
-        column for column in FULL_VOTES_DATE_COLUMNS if column != "VoteDate"
-    ]
-    for column in date_columns:
-        df[column] = df[column].dt.date
+    df = pd.read_pickle(path)
     return df
 
 
@@ -276,7 +270,7 @@ def save_full_votes(full_votes, file_name=None):
         file_name = FULL_VOTES_FILE_NAME
 
     path = GENERATED_FOLDER + file_name
-    full_votes.to_csv(path, index=False)
+    full_votes.to_pickle(path)
 
 
 VOTES_FILE_NAME = "votes.csv.gz"
@@ -287,7 +281,7 @@ def votes(file_name=None):
         file_name = VOTES_FILE_NAME
 
     path = GENERATED_FOLDER + file_name
-    return pd.read_csv(path, index_col="Id")
+    return pd.read_csv(path, index_col="VoteId")
 
 
 def save_votes(votes, file_name=None):
@@ -296,3 +290,38 @@ def save_votes(votes, file_name=None):
 
     path = GENERATED_FOLDER + file_name
     votes.to_csv(path)
+
+
+VOTES_LEGISLATIVE_FILE_NAME = "votes_legislative"
+VOTES_LEGISLATIVE_FILE_EXT = ".csv.gz"
+
+
+def votes_legislative(file_name=None):
+    if not file_name:
+        file_name = VOTES_LEGISLATIVE_FILE_NAME
+
+    dfs = []
+    for legislative in range(3):
+        path = (
+            GENERATED_FOLDER
+            + file_name
+            + "_"
+            + str(legislative)
+            + VOTES_LEGISLATIVE_FILE_EXT
+        )
+        dfs.append(votes(path))
+    return dfs
+
+
+def save_votes_legislative(votes, legislative, file_name=None):
+    if not file_name:
+        file_name = VOTES_LEGISLATIVE_FILE_NAME
+
+    path = (
+        GENERATED_FOLDER
+        + file_name
+        + "_"
+        + str(legislative)
+        + VOTES_LEGISLATIVE_FILE_EXT
+    )
+    save_votes(votes, path)

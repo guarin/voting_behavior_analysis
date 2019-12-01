@@ -12,6 +12,7 @@ def create_votes(full_votes=None):
 
     temp = pd.DataFrame(
         {
+            "VoteId": full_votes["VoteId"],
             "VoteMeaning": full_votes["CouncillorYes"],
             "CouncillorId": full_votes["CouncillorId"],
         }
@@ -21,12 +22,12 @@ def create_votes(full_votes=None):
     temp.loc[full_votes["CouncillorNotParticipated"] == 1, "VoteMeaning"] = 3
     temp.loc[full_votes["CouncillorExcused"] == 1, "VoteMeaning"] = 4
     temp.loc[full_votes["CouncillorPresident"] == 1, "VoteMeaning"] = 5
-    temp["Id"] = (
-        full_votes["AffairShortId"].astype(str)
-        + "-"
-        + full_votes["VoteRegistrationNumber"].astype(str)
-    )
-    votes = temp.groupby(["Id", "CouncillorId"]).aggregate("first").unstack()
+    # temp["Id"] = (
+    #     full_votes["AffairShortId"].astype(str)
+    #     + "-"
+    #     + full_votes["VoteRegistrationNumber"].astype(str)
+    # )
+    votes = temp.groupby(["VoteId", "CouncillorId"]).aggregate("first").unstack()
     votes.columns = votes.columns.get_level_values(1)
     votes = votes.fillna(-1).astype(int)
     return votes
