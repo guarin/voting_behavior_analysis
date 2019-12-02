@@ -5,9 +5,9 @@ from bokeh.resources import CDN
 hv.extension("bokeh")
 
 
-PLOT_FOLDER = "../plot/"
-SCRIPT_FOLDER = "script/"
-ELEMENT_FOLDER = "element/"
+PLOT_FOLDER = "../docs/"
+SCRIPT_FOLDER = "assets/js/"
+ELEMENT_FOLDER = "assets/plot_elements/"
 
 
 def save_plot(plot, name, print_element=True):
