@@ -241,3 +241,7 @@ fabric.properties
 #
 
 generated/full_votes.csv.gz
+.idea/
+business_items/
+chromedriver
+ratsmitglieder
