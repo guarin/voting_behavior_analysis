@@ -243,6 +243,7 @@ fabric.properties
 generated/full_votes.csv.gz
 .idea/
 business_items/
+business_items.zip
 chromedriver
 ratsmitglieder
 src/Untitled*
