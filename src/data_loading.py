@@ -11,6 +11,34 @@ import numpy as np
 DATA_FOLDER = "../data/"
 GENERATED_FOLDER = "../generated/"
 
+
+def _read_pickle(file_name, default_file_name, folder):
+    if not file_name:
+        file_name = default_file_name
+
+    path = folder + file_name
+    return pd.read_pickle(path)
+
+
+def _save_pickle(df, file_name, default_file_name, folder):
+    if not file_name:
+        file_name = default_file_name
+
+    path = folder + file_name
+    df.to_pickle(path)
+
+
+COUNCILLOR_INFO_FILE_NAME = "councillor_info.pickle"
+
+
+def councillor_info(file_name=None):
+    return _read_pickle(file_name, COUNCILLOR_INFO_FILE_NAME, GENERATED_FOLDER)
+
+
+def save_councillor_info(df, file_name=None):
+    _save_pickle(df, file_name, COUNCILLOR_INFO_FILE_NAME, GENERATED_FOLDER)
+
+
 SOURCE_VOTE_DATA_DTYPES = {
     "AffairShortId": np.int,
     "AffairTitle": np.str,
@@ -26,7 +54,7 @@ SOURCE_VOTE_DATA_DTYPES = {
     "VoteFilteredNotParticipated": np.uint8,
     "VoteFilteredExcused": np.uint8,
     "VoteFilteredPresident": np.uint8,
-    "CouncillorId": np.int,
+    "CouncillorId": np.str,
     "CouncillorName": np.str,
     "CouncillorYes": np.uint0,
     "CouncillorNo": np.uint0,
@@ -64,56 +92,15 @@ def _load(file_name):
     return df
 
 
-VOTE_DATA_DTYPES = {
-    "AffairShortId": np.int,
-    "AffairTitle": np.str,
-    "VoteRegistrationNumber": np.int,
-    "VoteMeaningYes": np.str,
-    "VoteMeaningNo": np.str,
-    "DivisionText": np.str,
-    "VoteSubmissionText": np.str,
-    "VoteFilteredYes": np.uint8,
-    "VoteFilteredNo": np.uint8,
-    "VoteFilteredAbstain": np.uint8,
-    "VoteFilteredNotParticipated": np.uint8,
-    "VoteFilteredExcused": np.uint8,
-    "VoteFilteredPresident": np.uint8,
-    "CouncillorId": np.int,
-    "CouncillorName": np.str,
-    "CouncillorYes": np.uint0,
-    "CouncillorNo": np.uint0,
-    "CouncillorAbstain": np.uint0,
-    "CouncillorNotParticipated": np.uint0,
-    "CouncillorExcused": np.uint0,
-    "CouncillorPresident": np.uint0,
-}
-
-VOTE_DATA_DATE_COLUMNS = ["VoteDate"]
 VOTE_DATA_FILE_NAME = "vote_data.pickle.gz"
 
 
 def vote_data(file_name=None):
-    if not file_name:
-        file_name = VOTE_DATA_FILE_NAME
-
-    path = GENERATED_FOLDER + file_name
-    # df = pd.read_csv(
-    #     path,
-    #     dtype=VOTE_DATA_DTYPES,
-    #     parse_dates=VOTE_DATA_DATE_COLUMNS,
-    #     date_parser=dt.datetime.fromisoformat,
-    # )
-    df = pd.read_pickle(path)
-    return df
+    return _read_pickle(file_name, VOTE_DATA_FILE_NAME, GENERATED_FOLDER)
 
 
 def save_vote_data(df, file_name=None):
-    if not file_name:
-        file_name = VOTE_DATA_FILE_NAME
-
-    path = GENERATED_FOLDER + file_name
-    # df.to_csv(path, index=False)
-    df.to_pickle(path)
+    _save_pickle(df, file_name, VOTE_DATA_FILE_NAME, GENERATED_FOLDER)
 
 
 SOURCE_MEMBERS_DTYPES = {
@@ -162,138 +149,68 @@ def source_members(file_name=None):
     return df
 
 
-MEMBERS_DTYPES = SOURCE_MEMBERS_DTYPES
-MEMBERS_DATE_COLUMNS = ["DateJoining", "DateLeaving", "DateOfBirth", "DateOfDeath"]
-MEMBERS_FILE_NAME = "members.csv"
-NATIONAL_COUNCIL_MEMBERS_FILE = "national_council_members.csv"
-
-
-def _read_members_like(file_name):
-    df = pd.read_csv(GENERATED_FOLDER + file_name, parse_dates=MEMBERS_DATE_COLUMNS)
-    for column in MEMBERS_DATE_COLUMNS:
-        df[column] = df[column].dt.date
-    return df
+MEMBERS_FILE_NAME = "members.pickle"
 
 
 def members(file_name=None):
-    if not file_name:
-        file_name = MEMBERS_FILE_NAME
-
-    return _read_members_like(file_name)
+    return _read_pickle(file_name, MEMBERS_FILE_NAME, GENERATED_FOLDER)
 
 
 def save_members(members, file_name=None):
-    if not file_name:
-        file_name = MEMBERS_FILE_NAME
+    _save_pickle(members, file_name, MEMBERS_FILE_NAME, GENERATED_FOLDER)
 
-    path = GENERATED_FOLDER + file_name
-    members.to_csv(path, index=False)
+
+ALL_MEMBERS_FILE_NAME = "all_members.pickle"
+
+
+def all_members(file_name=None):
+    return _read_pickle(file_name, ALL_MEMBERS_FILE_NAME, GENERATED_FOLDER)
+
+
+def save_all_members(df, file_name=None):
+    _save_pickle(df, file_name, ALL_MEMBERS_FILE_NAME, GENERATED_FOLDER)
+
+
+NATIONAL_COUNCIL_MEMBERS_FILE = "national_council_members.pickle"
 
 
 def national_council_members(file_name=None):
-    if not file_name:
-        file_name = NATIONAL_COUNCIL_MEMBERS_FILE
-
-    return _read_members_like(file_name)
+    return _read_pickle(file_name, NATIONAL_COUNCIL_MEMBERS_FILE, GENERATED_FOLDER)
 
 
 def save_national_council_members(national_council_members, file_name=None):
-    if not file_name:
-        file_name = NATIONAL_COUNCIL_MEMBERS_FILE
+    _save_pickle(
+        national_council_members,
+        file_name,
+        NATIONAL_COUNCIL_MEMBERS_FILE,
+        GENERATED_FOLDER,
+    )
 
-    path = GENERATED_FOLDER + file_name
-    national_council_members.to_csv(path, index=False)
-
-
-FULL_VOTES_DTYPES = {
-    "Active": np.bool,
-    "AffairShortId": np.int64,
-    "AffairTitle": np.str,
-    "BirthPlace_Canton": np.str,
-    "BirthPlace_City": np.str,
-    "CantonAbbreviation": np.str,
-    "CantonName": np.str,
-    "Citizenship": np.str,
-    "CouncilName": np.str,
-    "CouncillorAbstain": np.uint0,
-    "CouncillorExcused": np.uint0,
-    "CouncillorId": np.int64,
-    "CouncillorName": np.str,
-    "CouncillorNo": np.uint0,
-    "CouncillorNotParticipated": np.uint0,
-    "CouncillorPresident": np.uint0,
-    "CouncillorYes": np.uint0,
-    "DivisionText": np.str,
-    "FirstName": np.str,
-    "GenderAsString": np.str,
-    "LastName": np.str,
-    "Mandates": np.str,
-    "MaritalStatusText": np.str,
-    "ParlGroupAbbreviation": np.str,
-    "ParlGroupName": np.str,
-    "PartyAbbreviation": np.str,
-    "PartyName": np.str,
-    "VoteFilteredAbstain": np.uint8,
-    "VoteFilteredExcused": np.uint8,
-    "VoteFilteredNo": np.uint8,
-    "VoteFilteredNotParticipated": np.uint8,
-    "VoteFilteredPresident": np.uint8,
-    "VoteFilteredYes": np.uint8,
-    "VoteMeaningNo": np.str,
-    "VoteMeaningYes": np.str,
-    "VoteRegistrationNumber": np.int64,
-    "VoteSubmissionText": np.str,
-}
-
-FULL_VOTES_DATE_COLUMNS = [
-    "VoteDate",
-    "DateJoining",
-    "DateLeaving",
-    "DateOfBirth",
-    "DateOfDeath",
-]
 
 FULL_VOTES_FILE_NAME = "full_votes.pickle.gz"
 
 
 def full_votes(file_name=None):
-    if not file_name:
-        file_name = FULL_VOTES_FILE_NAME
-
-    path = GENERATED_FOLDER + file_name
-    df = pd.read_pickle(path)
-    return df
+    return _read_pickle(file_name, FULL_VOTES_FILE_NAME, GENERATED_FOLDER)
 
 
 def save_full_votes(full_votes, file_name=None):
-    if not file_name:
-        file_name = FULL_VOTES_FILE_NAME
-
-    path = GENERATED_FOLDER + file_name
-    full_votes.to_pickle(path)
+    _save_pickle(full_votes, file_name, FULL_VOTES_FILE_NAME, GENERATED_FOLDER)
 
 
-VOTES_FILE_NAME = "votes.csv.gz"
+VOTES_FILE_NAME = "votes.pickle.gz"
 
 
 def votes(file_name=None):
-    if not file_name:
-        file_name = VOTES_FILE_NAME
-
-    path = GENERATED_FOLDER + file_name
-    return pd.read_csv(path, index_col="VoteId")
+    return _read_pickle(file_name, VOTES_FILE_NAME, GENERATED_FOLDER)
 
 
 def save_votes(votes, file_name=None):
-    if not file_name:
-        file_name = VOTES_FILE_NAME
-
-    path = GENERATED_FOLDER + file_name
-    votes.to_csv(path)
+    _save_pickle(votes, file_name, VOTES_FILE_NAME, GENERATED_FOLDER)
 
 
 VOTES_LEGISLATIVE_FILE_NAME = "votes_legislative"
-VOTES_LEGISLATIVE_FILE_EXT = ".csv.gz"
+VOTES_LEGISLATIVE_FILE_EXT = ".pickle.gz"
 
 
 def votes_legislative(file_name=None):
@@ -302,13 +219,7 @@ def votes_legislative(file_name=None):
 
     dfs = []
     for legislative in range(3):
-        path = (
-            GENERATED_FOLDER
-            + file_name
-            + "_"
-            + str(legislative)
-            + VOTES_LEGISLATIVE_FILE_EXT
-        )
+        path = file_name + "_" + str(legislative) + VOTES_LEGISLATIVE_FILE_EXT
         dfs.append(votes(path))
     return dfs
 
@@ -317,11 +228,5 @@ def save_votes_legislative(votes, legislative, file_name=None):
     if not file_name:
         file_name = VOTES_LEGISLATIVE_FILE_NAME
 
-    path = (
-        GENERATED_FOLDER
-        + file_name
-        + "_"
-        + str(legislative)
-        + VOTES_LEGISLATIVE_FILE_EXT
-    )
+    path = file_name + "_" + str(legislative) + VOTES_LEGISLATIVE_FILE_EXT
     save_votes(votes, path)

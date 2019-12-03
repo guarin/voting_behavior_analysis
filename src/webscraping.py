@@ -19,7 +19,7 @@ def download_councillor_info(start=0, end=355):
         time.sleep(3)
         with open(f"../ratsmitglieder/file_{page:0>3}.html", "w+") as file:
             file.write(driver.page_source)
-            
+
     driver.close()
 
 
@@ -33,7 +33,7 @@ def download_business_items(start=0, end=4593):
         time.sleep(3)
         with open(f"../business_items/file_{page:0>3}.html", "w+") as file:
             file.write(driver.page_source)
-            
+
     driver.close()
 
 
