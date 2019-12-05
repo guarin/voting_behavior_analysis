@@ -101,7 +101,7 @@ def _node_info(nodes_array, df=None):
 
 
 def _nodes(node_positions, info_df=None):
-    """Returns a Nodes object from a nx.graph or a list of node positions."""
+    """Returns a Nodes object from a networkx graph or a list of node positions."""
     if isinstance(node_positions, dict):
         indices = np.array(list(node_positions.keys()))
         node_positions = np.array(list(node_positions.values()))[indices]
@@ -205,18 +205,18 @@ def graph_from_nx(
     info_df=None,
     cluster_column=None,
     hover="default",
-    **kwargs,
+    **opts,
 ):
     """Creates a new graph from a networkx graph."""
     g = _graph_from_nx(nx_graph, node_positions, info_df)
-    g = _graph_opts(g, info_df, cluster_column, hover, **kwargs)
+    g = _graph_opts(g, info_df, cluster_column, hover, **opts)
     return g
 
 
 def graph(
-    edges, node_positions, info_df=None, cluster_column=None, hover="default", **kwargs
+    edges, node_positions, info_df=None, cluster_column=None, hover="default", **opts
 ):
     """Creates a new graph from a set of edges and node positions."""
     g = _graph(edges, node_positions, info_df)
-    g = _graph_opts(g, info_df, cluster_column, hover, **kwargs)
+    g = _graph_opts(g, info_df, cluster_column, hover, **opts)
     return g
