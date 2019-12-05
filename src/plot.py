@@ -126,12 +126,11 @@ DEFAULT_NODE_OPTS = {
 }
 
 
-def _info_df_opts(info_df=None, cluster_column=None, hover="default"):
+def _default_info_df_opts(info_df=None, cluster_column=None, hover="default"):
     opts = dict()
     if info_df is not None:
-        if cluster_column:
-            if cluster_column == "SimplePartyAbbreviation":
-                opts["cmap"] = metadata.PARTY_COLOR
+        if cluster_column == "SimplePartyAbbreviation":
+            opts["cmap"] = metadata.PARTY_COLOR
 
         if hover == "default":
             opts["tools"] = [DEFAULT_HOVER]
@@ -144,9 +143,10 @@ def _info_df_opts(info_df=None, cluster_column=None, hover="default"):
 def _nodes_opts(nodes, info_df=None, cluster_column=None, hover="default", **kwargs):
     opts = dict()
     opts.update(DEFAULT_NODE_OPTS)
-    if cluster_column and (info_df is not None):
+    if isinstance(cluster_column, str) and (info_df is not None):
         opts["color"] = cluster_column
-    info_df_opts = _info_df_opts(info_df, cluster_column, hover)
+
+    info_df_opts = _default_info_df_opts(info_df, cluster_column, hover)
     opts.update(info_df_opts)
     opts.update(kwargs)
     return nodes.options(**opts)
@@ -154,23 +154,32 @@ def _nodes_opts(nodes, info_df=None, cluster_column=None, hover="default", **kwa
 
 def nodes(node_positions, info_df=None, cluster_column=None, hover="default", **kwargs):
     """Creates a new nodes plot."""
+    info_df, cluster_column = _add_cluster_column(info_df, cluster_column)
     n = _nodes(node_positions, info_df)
     n = _nodes_opts(n, info_df, cluster_column, hover, **kwargs)
     return n
 
 
-def _graph(edges, node_positions, info_df=None):
+def _graph(edges, node_positions, info_df=None, cluster_column=None):
+    # have to add clusters explicitly
+    if isinstance(cluster_column, np.ndarray):
+        print("wow")
+        info_df = info_df.copy()
+        info_df["node_color"] = cluster_column.astype(int)
+
     nodes = _nodes(node_positions, info_df)
     source, target = edges.T
     graph = hv.Graph(((source, target), nodes))
     return graph
 
 
-def _graph_from_nx(nx_graph, node_positions=nx.spring_layout, info_df=None):
+def _graph_from_nx(
+    nx_graph, node_positions=nx.spring_layout, info_df=None, cluster_column=None
+):
     edges = np.asarray(nx_graph.edges)
     if callable(node_positions):
         node_positions = node_positions(nx_graph)
-    graph = _graph(edges, node_positions, info_df)
+    graph = _graph(edges, node_positions, info_df, cluster_column)
     return graph
 
 
@@ -191,12 +200,24 @@ DEFAULT_GRAPH_OPTS = {
 def _graph_opts(graph, info_df=None, cluster_column=None, hover="default", **kwargs):
     opts = dict()
     opts.update(DEFAULT_GRAPH_OPTS)
-    if cluster_column and (info_df is not None):
+    if isinstance(cluster_column, str) and (info_df is not None):
         opts["node_color"] = cluster_column
-    info_df_opts = _info_df_opts(info_df, cluster_column, hover)
+
+    info_df_opts = _default_info_df_opts(info_df, cluster_column, hover)
     opts.update(info_df_opts)
     opts.update(kwargs)
     return graph.options(**opts)
+
+
+def _add_cluster_column(info_df=None, cluster_column=None):
+    if isinstance(cluster_column, np.ndarray):
+        if info_df is None:
+            info_df = pd.DataFrame({"cluster_color": cluster_column})
+        else:
+            info_df = info_df.copy()
+            info_df["cluster_color"] = cluster_column.astype(int)
+        cluster_column = "cluster_color"
+    return info_df, cluster_column
 
 
 def graph_from_nx(
@@ -208,6 +229,7 @@ def graph_from_nx(
     **opts,
 ):
     """Creates a new graph from a networkx graph."""
+    info_df, cluster_column = _add_cluster_column(info_df, cluster_column)
     g = _graph_from_nx(nx_graph, node_positions, info_df)
     g = _graph_opts(g, info_df, cluster_column, hover, **opts)
     return g
@@ -217,6 +239,7 @@ def graph(
     edges, node_positions, info_df=None, cluster_column=None, hover="default", **opts
 ):
     """Creates a new graph from a set of edges and node positions."""
+    info_df, cluster_column = _add_cluster_column(info_df, cluster_column)
     g = _graph(edges, node_positions, info_df)
     g = _graph_opts(g, info_df, cluster_column, hover, **opts)
     return g
