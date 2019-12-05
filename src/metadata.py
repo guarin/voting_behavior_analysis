@@ -79,18 +79,18 @@ PARTY_COLOR = {
 
 # Maps simple party abbreviations to an index
 SIMPLE_PARTY_TO_INDEX = {
-    "other": 0,
-    "UDC": 1,
-    "PSS": 2,
-    "PLR": 3,
-    "PDC": 4,
-    "PBD": 5,
-    "PES": 6,
-    "PVL": 7,
-    "PEV": 8,
-    "Lega": 9,
-    "PCS": 10,
-    "UDF": 11,
+    "other": "0",
+    "UDC": "1",
+    "PSS": "2",
+    "PLR": "3",
+    "PDC": "4",
+    "PBD": "5",
+    "PES": "6",
+    "PVL": "7",
+    "PEV": "8",
+    "Lega": "9",
+    "PCS": "10",
+    "UDF": "11",
 }
 
 # Maps simple party index to a party name
