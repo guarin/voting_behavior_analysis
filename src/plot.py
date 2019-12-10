@@ -18,6 +18,7 @@ ELEMENT_FOLDER = "assets/plot_elements/"
 def save_plot(plot, name, print_element=True):
     """Saves a holoviews plot to be used for the data story."""
 
+    plot = plot.options(sizing_mode="scale_both")
     renderer = hv.renderer("bokeh")
     plot_state = renderer.get_plot(plot).state
 
@@ -280,9 +281,7 @@ def group_legend():
     for _, r in df.iterrows():
         texts.append(hv.Text(r["x"] + 1, r["y"], r["name"]).opts(**text_opts))
 
-    overlay_opts = {
-        "xlim": (-1, 6),
-    }
+    overlay_opts = {"xlim": (-1, 6), "shared_axes": False}
 
     overlay = hv.Overlay([points, *texts]).opts(**overlay_opts)
     return overlay
