@@ -1,5 +1,7 @@
 import holoviews as hv
-from bokeh.embed import autoload_static
+from bokeh.embed import file_html
+
+# from bokeh.embed import autoload_static
 from bokeh.resources import CDN
 from bokeh.models import HoverTool
 import metadata
@@ -13,31 +15,44 @@ hv.extension("bokeh")
 PLOT_FOLDER = "../docs/"
 SCRIPT_FOLDER = "assets/js/"
 ELEMENT_FOLDER = "assets/plot_elements/"
+HTML_FOLDER = "assets/html/"
 
 
 def save_plot(plot, name, print_element=True):
     """Saves a holoviews plot to be used for the data story."""
 
-    plot = plot.options(sizing_mode="scale_both")
     renderer = hv.renderer("bokeh")
-    plot_state = renderer.get_plot(plot).state
+    plot = renderer.get_plot(plot)
+    html = file_html(plot.state, CDN, name)
+    with open(PLOT_FOLDER + HTML_FOLDER + name + ".html", "w+") as file:
+        file.write(html)
 
-    if isinstance(plot, hv.Layout):
-        plot_state.children[0].toolbar.logo = None
-
-    script_path = SCRIPT_FOLDER + name + ".js"
-    script, element = autoload_static(plot_state, CDN, script_path)
-
-    with open(PLOT_FOLDER + SCRIPT_FOLDER + name + ".js", "w+") as file:
-        file.write(script)
-
+    src = HTML_FOLDER + name + ".html"
+    element = f"""<iframe src="{src}" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>"""
     with open(PLOT_FOLDER + ELEMENT_FOLDER + name + ".html", "w+") as file:
         file.write(element)
-
     if print_element:
-        print(element.strip())
+        print(element)
 
-    return script, element
+    # plot = plot.options(sizing_mode="scale_both")
+    # renderer = hv.renderer("bokeh")
+    # plot_state = renderer.get_plot(plot).state
+    #
+    # if isinstance(plot, hv.Layout):
+    #     plot_state.children[0].toolbar.logo = None
+    #
+    # script_path = SCRIPT_FOLDER + name + ".js"
+    # script, element = autoload_static(plot_state, CDN, script_path)
+    #
+    # with open(PLOT_FOLDER + SCRIPT_FOLDER + name + ".js", "w+") as file:
+    #     file.write(script)
+    #
+    #
+    #
+    # if print_element:
+    #     print(element.strip())
+    #
+    # return script, element
 
 
 def _disable_logo(plot, element):
@@ -248,40 +263,116 @@ def graph(
     return g
 
 
-def group_legend():
-    group = metadata.GROUP_COLOR
-    name = pd.Series(metadata.GROUP_NAME_EN)
-    df = pd.DataFrame(group, index=[0]).T
-    df.columns = ["color"]
-    df["group"] = df.index
-    df["x"] = 0
-    df["y"] = np.arange(len(df) - 1, -1, step=-1)
-    df = df.assign(name=name)
-    point_opts = {
-        "color": "color",
-        "size": 15,
-        "xaxis": None,
-        "yaxis": None,
-        "ylim": (-1, len(df)),
-        "xlim": (-1, 1),
-        "data_aspect": 1,
-        "default_tools": [],
-        "hooks": [_disable_logo],
-        "show_frame": False,
-    }
-    points = hv.Points(df, kdims=["x", "y"]).opts(**point_opts)
+LEGEND_POINT_OPTS = {
+    "color": "color",
+    "size": 15,
+    "xaxis": None,
+    "yaxis": None,
+    "data_aspect": 1,
+    "default_tools": [],
+    "hooks": [_disable_logo],
+    "show_frame": False,
+}
 
-    text_opts = {
-        "text_align": "left",
-        "xlim": (-1, 6),
-        "default_tools": [],
-    }
+LEGEND_TEXT_OPTS = {
+    "text_align": "left",
+    "default_tools": [],
+    "data_aspect": 1,
+}
 
+LEGEND_OVERLAY_OPTS = {
+    "shared_axes": False,
+    "data_aspect": 1,
+}
+
+
+def legend(names, colors, positions=None):
+    n = len(names)
+    x = np.zeros(n)
+    if positions is None:
+        y = np.arange(n)[::-1]
+    else:
+        y = positions
+    df = pd.DataFrame({"x": x, "y": y, "name": names, "color": colors})
+
+    points = _legend_points(df)
+    texts = _legend_texts(df)
+    width = _max_width(df)
+    overlay_opts = LEGEND_OVERLAY_OPTS.copy()
+    overlay_opts.update({"xlim": (-1, width), "frame_height": n * 40})
+    overlay = hv.Overlay([points, *texts]).opts(**overlay_opts)
+    return overlay
+
+
+def _max_width(df):
+    width = int(max(df["name"].map(len)) / 3)
+    return width
+
+
+def _legend_points(df):
+    point_opts = LEGEND_POINT_OPTS.copy()
+    min_y = df["y"].min() - 1
+    max_y = df["y"].max() + 1
+    point_opts.update(
+        {"xlim": (-1, 1), "ylim": (min_y, max_y),}
+    )
+    points = hv.Points(df, kdims=["x", "y"], vdims=["name", "color"]).opts(**point_opts)
+    return points
+
+
+def _legend_texts(df):
+    width = _max_width(df)
+    text_opts = LEGEND_TEXT_OPTS.copy()
+    text_opts.update({"xlim": (-1, width)})
     texts = []
     for _, r in df.iterrows():
         texts.append(hv.Text(r["x"] + 1, r["y"], r["name"]).opts(**text_opts))
+    return texts
 
-    overlay_opts = {"xlim": (-1, 6), "shared_axes": False}
 
-    overlay = hv.Overlay([points, *texts]).opts(**overlay_opts)
-    return overlay
+def group_legend(names=None, colors=None):
+    if names is None:
+        names = []
+        colors = []
+    names = [*list(metadata.GROUP_NAME_EN.values()), *names]
+    colors = [*list(metadata.GROUP_COLOR.values()), *colors]
+    return legend(names, colors)
+    # group = metadata.GROUP_COLOR
+    # name = pd.Series(metadata.GROUP_NAME_EN)
+    # df = pd.DataFrame(group, index=[0]).T
+    # df.columns = ["color"]
+    # df = df.assign(name=name)
+    # return legend(df["name"], df["color"])
+    #
+    # df["name"] = df.index
+    # df["x"] = 0
+    # df["y"] = np.arange(len(df) - 1, -1, step=-1)
+    # df = df.assign(name=name)
+    # point_opts = {
+    #     "color": "color",
+    #     "size": 15,
+    #     "xaxis": None,
+    #     "yaxis": None,
+    #     "ylim": (-1, len(df)),
+    #     "xlim": (-1, 1),
+    #     "data_aspect": 1,
+    #     "default_tools": [],
+    #     "hooks": [_disable_logo],
+    #     "show_frame": False,
+    # }
+    # points = hv.Points(df, kdims=["x", "y"]).opts(**point_opts)
+    #
+    # text_opts = {
+    #     "text_align": "left",
+    #     "xlim": (-1, 6),
+    #     "default_tools": [],
+    # }
+    #
+    # texts = []
+    # for _, r in df.iterrows():
+    #     texts.append(hv.Text(r["x"] + 1, r["y"], r["name"]).opts(**text_opts))
+    #
+    # overlay_opts = {"xlim": (-1, 6), "shared_axes": False}
+    #
+    # overlay = hv.Overlay([points, *texts]).opts(**overlay_opts)
+    # return overlay
