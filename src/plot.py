@@ -1,5 +1,7 @@
 import holoviews as hv
-from bokeh.embed import autoload_static
+from bokeh.embed import file_html
+
+# from bokeh.embed import autoload_static
 from bokeh.resources import CDN
 from bokeh.models import HoverTool
 import metadata
@@ -13,31 +15,44 @@ hv.extension("bokeh")
 PLOT_FOLDER = "../docs/"
 SCRIPT_FOLDER = "assets/js/"
 ELEMENT_FOLDER = "assets/plot_elements/"
+HTML_FOLDER = "assets/html/"
 
 
 def save_plot(plot, name, print_element=True):
     """Saves a holoviews plot to be used for the data story."""
 
-    plot = plot.options(sizing_mode="scale_both")
     renderer = hv.renderer("bokeh")
-    plot_state = renderer.get_plot(plot).state
+    plot = renderer.get_plot(plot)
+    html = file_html(plot.state, CDN, name)
+    with open(PLOT_FOLDER + HTML_FOLDER + name + ".html", "w+") as file:
+        file.write(html)
 
-    if isinstance(plot, hv.Layout):
-        plot_state.children[0].toolbar.logo = None
-
-    script_path = SCRIPT_FOLDER + name + ".js"
-    script, element = autoload_static(plot_state, CDN, script_path)
-
-    with open(PLOT_FOLDER + SCRIPT_FOLDER + name + ".js", "w+") as file:
-        file.write(script)
-
+    src = HTML_FOLDER + name + ".html"
+    element = f"""<iframe src="{src}" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>"""
     with open(PLOT_FOLDER + ELEMENT_FOLDER + name + ".html", "w+") as file:
         file.write(element)
-
     if print_element:
-        print(element.strip())
+        print(element)
 
-    return script, element
+    # plot = plot.options(sizing_mode="scale_both")
+    # renderer = hv.renderer("bokeh")
+    # plot_state = renderer.get_plot(plot).state
+    #
+    # if isinstance(plot, hv.Layout):
+    #     plot_state.children[0].toolbar.logo = None
+    #
+    # script_path = SCRIPT_FOLDER + name + ".js"
+    # script, element = autoload_static(plot_state, CDN, script_path)
+    #
+    # with open(PLOT_FOLDER + SCRIPT_FOLDER + name + ".js", "w+") as file:
+    #     file.write(script)
+    #
+    #
+    #
+    # if print_element:
+    #     print(element.strip())
+    #
+    # return script, element
 
 
 def _disable_logo(plot, element):
