@@ -57,6 +57,52 @@ SIMPLE_PARTY_ABBREVIATION.update({p: p for p in POPULAR_PARTIES})
 # TODO: Maybe there are some others to merge?
 SIMPLE_PARTY_ABBREVIATION.update({"CSP OW": "PCS", "CSPO": "PCS"})
 
+# parliamentary groups
+GROUP = {
+    "-": "-",
+    "V": "V",
+    "CEg": "CE",
+    "RL": "RL",
+    "G": "G",
+    "S": "S",
+    "BD": "BD",
+    "CE": "CE",
+    "C": "CE",
+    "GL": "GL",
+}
+
+GROUP_NAME_EN = {
+    "V": "Swiss People's Party",
+    "S": "Social Democrats",
+    "CE": "Christian Democrats",
+    "RL": "Liberals",
+    "G": "Greens",
+    "GL": "Green Liberals",
+    "BD": "Liberal Democrats",
+    "-": "Other",
+}
+
+GROUP_COLOR = {
+    "V": "#009F4F",
+    "S": "#E53136",
+    "CE": "#EF7D00",
+    "RL": "#0E52A0",
+    "G": "#84B414",
+    "GL": "#7e3874",
+    "BD": "#FBD918",
+    "-": "#DDDDDD",
+}
+
+# GROUP_ID = {
+#     "V": 0,
+#     "S": 1,
+#     "CE": 2,
+#     "RL": 3,
+#     "G": 4,
+#     "GL": 5,
+#     "BD": 6,
+#     "-": 7,
+# }
 # Maps party abbreviation to party color
 PARTY_COLOR = {
     "other": "#DDDDDD",
@@ -75,6 +121,22 @@ PARTY_COLOR = {
     # "PST": "#E93C1A",
     # "PCS OW": "#BF3235",
     # "AL": "#960018",
+}
+
+PARTY_FRGE = {
+    "other": "Other",
+    "UDC": "UDC / SVP",
+    "PSS": "PSS / SP",
+    "PLR": "PLR / FDP",
+    "PDC": "PDC / CVP",
+    "PBD": "PBD / BDP",
+    "PES": "PES / GPS",
+    "PVL": "PVL / GLP",
+    "PEV": "PEV / EVP",
+    "Lega": "Lega",
+    "PCS": "PCS / CSP",
+    "MCG": "MCG",
+    "UDF": "UDF / EDU",
 }
 
 # Maps simple party abbreviations to an index

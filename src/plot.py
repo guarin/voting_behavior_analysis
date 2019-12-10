@@ -132,6 +132,9 @@ def _default_info_df_opts(info_df=None, cluster_column=None, hover="default"):
         if cluster_column == "SimplePartyAbbreviation":
             opts["cmap"] = metadata.PARTY_COLOR
 
+        elif cluster_column == "Group":
+            opts["cmap"] = metadata.GROUP_COLOR
+
         if hover == "default":
             opts["tools"] = [DEFAULT_HOVER]
 
@@ -163,7 +166,6 @@ def nodes(node_positions, info_df=None, cluster_column=None, hover="default", **
 def _graph(edges, node_positions, info_df=None, cluster_column=None):
     # have to add clusters explicitly
     if isinstance(cluster_column, np.ndarray):
-        print("wow")
         info_df = info_df.copy()
         info_df["node_color"] = cluster_column.astype(int)
 
@@ -212,7 +214,7 @@ def _graph_opts(graph, info_df=None, cluster_column=None, hover="default", **kwa
 def _add_cluster_column(info_df=None, cluster_column=None):
     if isinstance(cluster_column, np.ndarray):
         if info_df is None:
-            info_df = pd.DataFrame({"cluster_color": cluster_column})
+            info_df = pd.DataFrame({"cluster_color": cluster_column,})
         else:
             info_df = info_df.copy()
             info_df["cluster_color"] = cluster_column.astype(int)
@@ -243,3 +245,44 @@ def graph(
     g = _graph(edges, node_positions, info_df)
     g = _graph_opts(g, info_df, cluster_column, hover, **opts)
     return g
+
+
+def party_legend():
+    parties = metadata.PARTY_COLOR
+    frge = pd.Series(metadata.PARTY_FRGE)
+    df = pd.DataFrame(parties, index=[0]).T
+    df.columns = ["color"]
+    df["party"] = df.index
+    df["x"] = 0
+    df["y"] = np.arange(len(df) - 1, -1, step=-1)
+    df = df.assign(frge=frge)
+    point_opts = {
+        "color": "color",
+        "size": 10,
+        "xaxis": None,
+        "yaxis": None,
+        "ylim": (-1, len(df)),
+        "xlim": (-1, 1),
+        "data_aspect": 1,
+        "default_tools": [],
+        "hooks": [_disable_logo],
+        "show_frame": False,
+    }
+    points = hv.Points(df, kdims=["x", "y"]).opts(**point_opts)
+
+    text_opts = {
+        "text_align": "left",
+        "xlim": (-1, 5),
+        "default_tools": [],
+    }
+
+    texts = []
+    for _, r in df.iterrows():
+        texts.append(hv.Text(r["x"] + 1, r["y"], r["frge"]).opts(**text_opts))
+
+    overlay_opts = {
+        "xlim": (-1, 5),
+    }
+
+    overlay = hv.Overlay([points, *texts]).opts(**overlay_opts)
+    return overlay

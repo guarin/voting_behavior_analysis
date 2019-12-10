@@ -262,6 +262,9 @@ def get_national_council_members(members):
         .drop_duplicates()
     )
     ncm = ncm.loc[ncm["CouncillorId"].notna()]
+    ncm["Group"] = ncm["ParlGroupAbbreviation"].map(metadata.GROUP)
+    # ncm["GroupId"] = ncm["Group"].map(metadata.GROUP_ID)
+    ncm["GroupNameEN"] = ncm["Group"].map(metadata.GROUP_NAME_EN)
     ncm = _sort_councillor_id(ncm)
     ncm = ncm.reset_index(drop=True)
     return ncm
