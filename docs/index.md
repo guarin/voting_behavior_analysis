@@ -35,8 +35,8 @@ Unfortunately, other federal councilors were not part of the National Council at
 
 From the graph, it seems that none of the examples we have seen are very central in their party. Ueli Maurer is even quite far apart from the rest of UDC. Johann Schneider-Ammann seems also somewhat isolated. This would indicate that having a voting pattern representative of one's party isn't essential to be elected for the federal council. This can be futher proven by ranking each members "closeness" to the rest of it's party.  
 
-<img src="../docs/assets/image/closeness_udc.png" alt="drawing" width="400"/>
-<img src="../docs/assets/image/closeness_plr.png" alt="drawing" width="400"/>
+<img src="../docs/assets/image/closeness_udc.png" width="400"/>
+<img src="../docs/assets/image/closeness_plr.png" width="400"/>
 
 None of the federal councillors are the obvious pick of their party since a lot of other members of both UDC and PLR would be a lot more representative that the ones that actually got elected. The few councillor we can observe would then suggest that party isn't as relevant to one's election as the media would suggest. *This is further proof that political party are not relevant in the Swiss Political System*. 
 
