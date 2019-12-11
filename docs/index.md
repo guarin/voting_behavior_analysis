@@ -19,9 +19,19 @@ Finally there are a few politicians that come from minor, mostly regional partie
 
 In order to first see whether the political parties make sense, we create a social network of politicians where every politician is connected to the politicians whose voting behavior is closest to theirs. Based on this network we try to divide the politicians into communities using the spectral clustering algorithm. We visualize this on a two-dimensional representation of the network, where nodes are closer to each other if they're closer on the network. 
 
-**TODO THE PLOT**
+Here are the results of the spectral clustering, followed by the true parliamentary group of the politician.
 
-We see that the clustering consistently splits the conservative party (UDC) into two fractions. Moreover, the green party seems to get increasingly close to the socialdemocratic party.
+<iframe src="assets/html/spectral_clustering.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
+
+<iframe src="assets/html/party_assignment.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
+
+
+
+We see that the clustering consistently splits the conservative party (UDC) into two fractions. Moreover, the green party seems to get increasingly close to the socialdemocratic party with the two being indistinguishable towards the end. Other than some politicians in the middle of the political spectrum, the clustering seems to do a very good job in recovering the political parties.
+
+<iframe src="assets/html/spectral_clustering.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
+
+We see that the clustering consistently splits the conservative party (UDC) into two fractions. Moreover, the green party seems to get increasingly close to the socialdemocratic party with the two being indistinguishable towards the end. Other than some politicians in the middle of the political spectrum, the clustering seems to do a very good job in recovering the political parties.
 
 **Witere stuss**
 
@@ -46,7 +56,6 @@ Unfortunately, other federal councilors were not part of the National Council at
 
 ## Visualizing Centrality
 <iframe src="assets/html/real_graph.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
-
 From the graph, it seems that none of the examples we have seen are very central in their party. Ueli Maurer is even quite far apart from the rest of UDC. Johann Schneider-Ammann seems also somewhat isolated. This would indicate that having a voting pattern representative of one's party isn't essential to be elected for the federal council. This can be futher proven by ranking each members "closeness" to the rest of it's party.  
 
 <img src="../docs/assets/image/closeness_udc.png" alt="drawing" width="400"/>
@@ -58,7 +67,6 @@ None of the federal councillors are the obvious pick of their party since a lot 
 Nonetheless, it seems intutive to pick 7 members of the executive power that each best represent a subgroup of the legislative power. This would result with law makers satisfied of the execution of their laws. Do do this we can split the members of the National Council in 7 groups based on their votes and pick for each group the politican that is in the middle. 
 
 <iframe src="assets/html/best_graph.html" width="100%" height="500" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
-
 Since the Federal Councilor has just been re-elected, this method can be used to determined who would have been a good rational pick. The results is: 
 - Flach Beat (PVL)
 - Mazzone Lisa     (PES)
