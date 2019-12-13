@@ -119,7 +119,7 @@ def _node_info(nodes_array, df=None):
 def _nodes(node_positions, info_df=None):
     """Returns a Nodes object from a networkx graph or a list of node positions."""
     if isinstance(node_positions, dict):
-        indices = np.array(list(node_positions.keys()))
+        indices = sorted(np.array(list(node_positions.keys())))
         node_positions = np.array(list(node_positions.values()))[indices]
 
     info = _node_info(node_positions, info_df)
