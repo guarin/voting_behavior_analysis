@@ -8,10 +8,12 @@ def yesno_imputed(leg):
     mean imputation for all other votes.
     """
     yesno = leg.copy()
-    yesno[yesno>1] = np.NaN
-    yesno[yesno<0] = np.NaN
-    imp = SimpleImputer(missing_values=np.nan, strategy='mean')
-    return imp.fit_transform(yesno.T).T
+    yesno[yesno > 1] = np.NaN
+    yesno[yesno < 0] = np.NaN
+    imp = SimpleImputer(missing_values=np.nan, strategy="mean")
+    yesno.loc[:, :] = imp.fit_transform(yesno.T).T
+    return yesno
+
 
 def get_politician_attendance(leg):
     """
@@ -19,7 +21,8 @@ def get_politician_attendance(leg):
     parliament during the vote.
     """
     n_votes = leg.shape[0]
-    return ((leg<=3).sum(axis=0) - (leg<0).sum(axis=0))/n_votes
+    return ((leg <= 3).sum(axis=0) - (leg < 0).sum(axis=0)) / n_votes
+
 
 def filter_lazy(leg, ncm, thresh):
     """
@@ -27,14 +30,15 @@ def filter_lazy(leg, ncm, thresh):
     percent of the votes.
     """
     att = get_politician_attendance(leg).to_numpy()
- #    print(att)
- #    print(ncm)
- #    print(att>thresh)
-    return leg.loc[:,att>thresh], ncm.loc[att>thresh,:]
+    #    print(att)
+    #    print(ncm)
+    #    print(att>thresh)
+    return leg.loc[:, att > thresh], ncm.loc[att > thresh, :]
 
-def filter_impute(leg, ncm, thresh=.5):
+
+def filter_impute(leg, ncm, thresh=0.5):
     """
     Filters politicians that aren't there often, and imputes then with the mean.
     """
     no_lazy, ncm = filter_lazy(leg, ncm, thresh)
-    return yesno_imputed(no_lazy), ncm
+    return yesno_imputed(no_lazy), ncm.reset_index(drop=True)

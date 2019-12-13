@@ -230,7 +230,7 @@ def _graph_opts(graph, info_df=None, cluster_column=None, hover="default", **kwa
 def _add_cluster_column(info_df=None, cluster_column=None):
     if isinstance(cluster_column, np.ndarray):
         if info_df is None:
-            info_df = pd.DataFrame({"cluster_color": cluster_column,})
+            info_df = pd.DataFrame({"cluster_color": cluster_column})
         else:
             info_df = info_df.copy()
             info_df["cluster_color"] = cluster_column.astype(int)
@@ -337,42 +337,3 @@ def group_legend(names=None, colors=None):
     names = [*list(metadata.GROUP_NAME_EN.values()), *names]
     colors = [*list(metadata.GROUP_COLOR.values()), *colors]
     return legend(names, colors)
-    # group = metadata.GROUP_COLOR
-    # name = pd.Series(metadata.GROUP_NAME_EN)
-    # df = pd.DataFrame(group, index=[0]).T
-    # df.columns = ["color"]
-    # df = df.assign(name=name)
-    # return legend(df["name"], df["color"])
-    #
-    # df["name"] = df.index
-    # df["x"] = 0
-    # df["y"] = np.arange(len(df) - 1, -1, step=-1)
-    # df = df.assign(name=name)
-    # point_opts = {
-    #     "color": "color",
-    #     "size": 15,
-    #     "xaxis": None,
-    #     "yaxis": None,
-    #     "ylim": (-1, len(df)),
-    #     "xlim": (-1, 1),
-    #     "data_aspect": 1,
-    #     "default_tools": [],
-    #     "hooks": [_disable_logo],
-    #     "show_frame": False,
-    # }
-    # points = hv.Points(df, kdims=["x", "y"]).opts(**point_opts)
-    #
-    # text_opts = {
-    #     "text_align": "left",
-    #     "xlim": (-1, 6),
-    #     "default_tools": [],
-    # }
-    #
-    # texts = []
-    # for _, r in df.iterrows():
-    #     texts.append(hv.Text(r["x"] + 1, r["y"], r["name"]).opts(**text_opts))
-    #
-    # overlay_opts = {"xlim": (-1, 6), "shared_axes": False}
-    #
-    # overlay = hv.Overlay([points, *texts]).opts(**overlay_opts)
-    # return overlay
