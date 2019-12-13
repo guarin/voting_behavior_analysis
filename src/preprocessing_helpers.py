@@ -11,7 +11,8 @@ def yesno_imputed(leg):
     yesno[yesno > 1] = np.NaN
     yesno[yesno < 0] = np.NaN
     imp = SimpleImputer(missing_values=np.nan, strategy="mean")
-    return imp.fit_transform(yesno.T).T
+    yesno.loc[:, :] = imp.fit_transform(yesno.T).T
+    return yesno
 
 
 def get_politician_attendance(leg):
