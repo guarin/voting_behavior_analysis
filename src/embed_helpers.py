@@ -1,6 +1,7 @@
 from sklearn.decomposition import PCA
 from sklearn.neighbors import kneighbors_graph
 from sklearn.preprocessing import StandardScaler
+from scipy.sparse.linalg import eigs
 
 import numpy as np
 import networkx as nx
@@ -89,6 +90,7 @@ def spectral_embedding(nx_graph, n=15):
     evecs:
         Eigenvectors of spectral embedding
     """
+    n = min(n, len(nx_graph)-2) 
     norm_L = nx.normalized_laplacian_matrix(nx_graph)
     evals, evecs = eigs(norm_L, k=n, which="SM")
     evals = np.real(evals)
