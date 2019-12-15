@@ -49,4 +49,18 @@ def spectral_cluster(G, subsplit_thresh=15):
     # Sort by nodes
     nodes, cluster = zip(*cd.items())
     return np.array(cluster)[np.argsort(nodes)]
+
+def get_best_node(cluster,clusters,points) :
+    """
+        Computes the index of the node with the highest katz_centrality in a network made only of 
+        nodes in a given cluster
+    
+    """
+    # Get id of
+    cluster_idx = [i for i, x in enumerate(clusters == cluster) if x]
+    cluster_pc = points[cluster_idx]
+    cluster_knn_graph = embed_helpers.get_knn_graph(cluster_pc, k=5) 
+    centrality = np.asarray(list(nx.katz_centrality(cluster_knn_graph).values()))
+    max_closeness_idx = np.argmax(centrality)
+    return cluster_idx[max_closeness_idx]
     
