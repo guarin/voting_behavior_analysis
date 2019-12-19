@@ -32,7 +32,7 @@ def do_pca(data, explained_var=.75, return_fits=True):
     
     # Get nb pcs to retain
     expl_var = np.cumsum(pcafit.explained_variance_ratio_)
-    nb_retain = np.where(expl_var>.75)[0][0]
+    nb_retain = np.where(expl_var>explained_var)[0][0]
     
     # Project onto PCs
     pc = pcafit.transform(scaled)[:,:nb_retain]
@@ -99,8 +99,8 @@ def spectral_embedding(nx_graph, n=15):
     return evals, evecs
 
 
-def do_tsne(pc):
+def do_tsne(pc, **kwargs):
     """
     Performs tsne embedding of pc.
     """
-    return TSNE(random_state=42).fit_transform(pc)
+    return TSNE(random_state=42, **kwargs).fit_transform(pc)
