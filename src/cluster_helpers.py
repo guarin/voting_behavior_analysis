@@ -5,7 +5,7 @@ import networkx as nx
 from matplotlib import pyplot as plt
 
 def get_kmeans_clusters(pc, k=4):
-    cl = KMeans(n_clusters=k).fit(pc)
+    cl = KMeans(n_clusters=k, random_state=1).fit(pc)
     return cl.labels_
 
 def inertia_plot(pc, cluster_range=np.arange(2,15)):

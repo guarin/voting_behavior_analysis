@@ -2,6 +2,7 @@ from sklearn.decomposition import PCA
 from sklearn.neighbors import kneighbors_graph
 from sklearn.preprocessing import StandardScaler
 from scipy.sparse.linalg import eigs
+from sklearn.manifold import TSNE
 
 import numpy as np
 import networkx as nx
@@ -98,3 +99,8 @@ def spectral_embedding(nx_graph, n=15):
     return evals, evecs
 
 
+def do_tsne(pc):
+    """
+    Performs tsne embedding of pc.
+    """
+    return TSNE(random_state=42).fit_transform(pc)
