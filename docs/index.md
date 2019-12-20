@@ -19,16 +19,16 @@ Finally there are a few politicians that come from minor, mostly regional partie
 
 In order to first see whether the political parties make sense, we create a social network of politicians where every politician is connected to the politicians whose voting behavior is closest to theirs. If we plot this network and color it by parliamentary groups, it looks like this:
 
-<iframe src="assets/html/party_assignment.html" width="100%" height="405" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
-<iframe src="assets/html/party_assignment_legend.html" width="100%" height="150" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
+<div style="text-align: center;"><iframe src="assets/html/party_assignment.html" width="100%" height="405" scrolling="yes" seamless="seamless" frameborder="0"></iframe></div>
+<div style="text-align: center;"><iframe src="assets/html/party_assignment_legend.html" width="100%" height="160" scrolling="yes" seamless="seamless" frameborder="0"></iframe></div>
 
 We can already see that politicians within the same party strongly tend to be connected to members of their own party. 
 
 Moreover, there are some interesting things that can be observed: First, the Green Party (PES, in light green) has become very close to the Socialist Party (PSS, in red) in the last legislature, making it hard to distinguish. Moreover, the Green Liberal Party (PVL, in purple) is very isolated in the second legislative period. This is probably due to the fact that this was the first period during which they were represented in parliament, and thus they tried to vote very similarly in order to gain profile and to achieve their goals. However, they've since gotten closer to the political middle, consisting of the Liberal Democrats (yellow) and Christian Democrats (orange).
 
-Based on this network we try to divide the politicians into communities using the spectral clustering algorithm. Here are the results, visualized on the same graph as before:
+Based on this network we try to divide the politicians into communities using the spectral clustering algorithm. Here are the results, visualized on the same graph as before with each color representing a community:
 
-<iframe src="assets/html/spectral_clustering.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
+<div style="text-align: center;"><iframe src="assets/html/spectral_clustering.html" width="100%" height="405" scrolling="no" seamless="seamless" frameborder="0"></iframe></div>
 
 We confirm what we already visually saw, that the political parties can be recovered very well just from the voting data. Sometimes, the parties are divided into one or more sub-clusters, which is due to the fact that the algorithm favors parties of the same size. Moreover, the politicians in the middle parties (Green Liberals, Liberal Democrats and Christian Democrats) are hard to tell apart. But the fact that we can recover the parties this robustly suggests that they do have a justification in Swiss politics.
 
