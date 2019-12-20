@@ -1,5 +1,7 @@
 # Swiss Political Parties : a Study of Relevance.
 ## [Website](https://gfepfl.github.io/alternative-fuer-demokratie/)
+## [Notebook](https://gfepfl.github.io/alternative-fuer-demokratie/notebook)
+
 ## Abstract
 
 Political parties are often considered to be an essential part of
@@ -130,3 +132,12 @@ Part 3:
 
 ## Milestone 2
 Milestone 2 work can be found under src/milestone2.ipynb 
+
+## Milestone 3
+Milestone 3 work can be found at https://gfepfl.github.io/alternative-fuer-demokratie/notebook
+
+## Contributions
+Matthias Minder: Initial Data Analysis (Clustering), Natural Language Processing, Data Story, Poster
+Oriane Peter: Analysis of the Federal Council members, Data Story, Poster + Presentation
+Guarin Flück: Data Cleaning, Webcrawling, Visualizations, Website, Poster + Presentation
+Marc Glettig: Webcrawling, Natural Language Processing, Vote Topic Analysis, Presentation
