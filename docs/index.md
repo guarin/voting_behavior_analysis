@@ -51,12 +51,15 @@ The following graph shows where the federal councillors lie on the social networ
 
 <iframe src="assets/html/real_graph.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
 
-From the graph, it seems that none of the examples we have seen are very central to their party. Guy Parmelin is even at the edge of the group. This would indicate that having a voting pattern representative of one's party is not essential to be elected for the Federal Council. This can be further proven by ranking each members "closeness" to the rest of its party.  
+From the graph, it seems that none of the examples we have seen are very central to their party. Guy Parmelin is even at the edge of the group. This would indicate that having a voting pattern representative of one's party is not essential to be elected for the Federal Council. This can be further proven by ranking each members "closeness" to the rest of its party. Federal councillors are highlighted in pink:
 
-<iframe src="assets/html/centrality_plot_0.html" width="100%" height="400" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
-<iframe src="assets/html/cnetrality_plot_1.html" width="100%" height="400" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
+<div style="text-align: center;">
+    <div>
+        <iframe src="assets/html/centrality_plot_0.html" width="100%" height="320" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
+        <iframe src="assets/html/cnetrality_plot_1.html" width="100%" height="320" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
+    </div>
+</div>
 
-<img src="../docs/assets/image/closeness.svg" width="400"/>
 
 None of the elected councillors (maybe with the exception of Ignazio Cassis) seem to have a voting pattern that is very representative of their political party. The reason for this is likely the fact that the federal council is elected by the entire political spectrum, and not only the politicians party. Take the case of the politician of the right party, Guy Parmelin: He likely was able to become elected *because* he isn't representative of his party. This means that in some cases, the way the federal councillors are chosen doesn't lead to a good representation of the will of the Swiss voters. 
 
@@ -82,9 +85,11 @@ To make our pick we make the following assumptions:
 - The optimal pick for the Federal Council is seven members whose political orientation is best representing seven equal sized sub-groups of the National Council
 - The best single point representation of a group is at its center
 
-We therefore split the National Council in seven subgroups and pick the most central politican in each of them. This results in a set of federal councillors for the upcoming legislative that might be more representative that the one that got elected. 
+We therefore split the National Council in seven subgroups and pick the most central politican in each of them. This results in a set of federal councillors for the upcoming legislative that might be more representative that the one that got elected. Each group is represented by a color, federal councillors are shown in pink:
 
-<iframe src="assets/html/next_legislative_pick.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
+<div style="text-align: center;"><iframe src="assets/html/next_legislative_pick.html" width="100%" height="420" scrolling="no" seamless="seamless" frameborder="0"></iframe><</div>
+
+
 There is no overlap between our pick and the current federal councillors. None of "our" councillors were even a candidate at a Federal Council election. This indicates that our way of selecting an executive power is quite different from what is currently implemented. We also see that no member of the Green Party is part of our pick, even though a member of the Green Liberal Party (PVL) who historically never had a federal councillor make it into the list.
 
 This choice is limited by the fact that it is only suggests national councillors for becoming members of the executive, even though in practice several members of the Council of States also move to the Federal Council. Moreover, we could only suggest the next federal council based on the previous legislative period. Large shifts in seats hence would only be represented in the executive 4 years later. This is however in the interest of Swiss democracy, which has a strong focus on ensuring continuity and to prevent rapid changes making the political system unstable. Finally, other considerations are important for choosing the federal council, such as the region of origin or the gender. 
