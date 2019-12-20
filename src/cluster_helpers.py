@@ -4,53 +4,61 @@ import embed_helpers
 import networkx as nx
 from matplotlib import pyplot as plt
 
+
 def get_kmeans_clusters(pc, k=4):
     cl = KMeans(n_clusters=k, random_state=1).fit(pc)
     return cl.labels_
 
-def inertia_plot(pc, cluster_range=np.arange(2,15)):
+
+def inertia_plot(pc, cluster_range=np.arange(2, 15)):
     kmeans_fit = []
     inertia = []
     for nc in cluster_range:
         cl = KMeans(n_clusters=nc).fit(pc)
         kmeans_fit.append(cl)
         inertia.append(cl.inertia_)
-        
+
     plt.plot(cluster_range, inertia)
     plt.ylabel("Within-cluster variance")
     plt.xlabel("Number Clusters")
 
+
 def spectral_gap(evals):
     n_evals = len(evals)
-    if n_evals==1:
+    if n_evals == 1:
         return 1
     return np.argmax(evals[1:] - evals[:-1]) + 1
-    
+
+
 def spectral_cluster(G, subsplit_thresh=15):
     subgraphs = [G.subgraph(cc) for cc in nx.connected_components(G)]
     evals, evecs = zip(*[embed_helpers.spectral_embedding(g) for g in subgraphs])
-    max_clusters_allowed = [len(sg)//subsplit_thresh+1 for sg in subgraphs]
+    max_clusters_allowed = [len(sg) // subsplit_thresh + 1 for sg in subgraphs]
     n_clusters = [spectral_gap(ev[:m]) for ev, m in zip(evals, max_clusters_allowed)]
-    do_subcluster = [len(sg)/nc > subsplit_thresh and nc>1 for sg, nc in zip(subgraphs, n_clusters)]
-    
-    cd = dict() # Dict from node to its cluster
+    do_subcluster = [
+        len(sg) / nc > subsplit_thresh and nc > 1
+        for sg, nc in zip(subgraphs, n_clusters)
+    ]
+
+    cd = dict()  # Dict from node to its cluster
     nextval = 1
     for i, sg in enumerate(subgraphs):
         if do_subcluster[i]:
             nc = n_clusters[i]
             evec = evecs[i]
-            cl = get_kmeans_clusters(evec[:,:nc], nc)
-            cd.update(dict(zip(list(sg.nodes), cl+nextval)))
-            nextval +=nc
+            cl = get_kmeans_clusters(evec[:, :nc], nc)
+            cd.update(dict(zip(list(sg.nodes), cl + nextval)))
+            nextval += nc
         else:
             cd.update(dict.fromkeys(list(sg.nodes), nextval))
-            nextval +=1
-            
+            nextval += 1
+
     # Sort by nodes
     nodes, cluster = zip(*cd.items())
     return np.array(cluster)[np.argsort(nodes)]
 
-def get_best_node(cluster,clusters,points) :
+
+def get_best_node(cluster, clusters, points):
     """
         Computes the index of the node with the highest katz_centrality in a network made only of 
         nodes in a given cluster
@@ -59,8 +67,7 @@ def get_best_node(cluster,clusters,points) :
     # Get id of
     cluster_idx = [i for i, x in enumerate(clusters == cluster) if x]
     cluster_pc = points[cluster_idx]
-    cluster_knn_graph = embed_helpers.get_knn_graph(cluster_pc, k=5) 
+    cluster_knn_graph = embed_helpers.get_knn_graph(cluster_pc, k=5)
     centrality = np.asarray(list(nx.katz_centrality(cluster_knn_graph).values()))
     max_closeness_idx = np.argmax(centrality)
     return cluster_idx[max_closeness_idx]
-    

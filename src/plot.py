@@ -23,12 +23,21 @@ def save_plot(plot, name, print_element=True):
 
     renderer = hv.renderer("bokeh")
     plot = renderer.get_plot(plot)
+
+    if hasattr(plot.state, "children"):
+        for child in plot.state.children:
+            if hasattr(child, "toolbar"):
+                child.toolbar.logo = None
+
+    if hasattr(plot.state, "toolbar"):
+        plot.state.toolbar.logo = None
+
     html = file_html(plot.state, CDN, name)
     with open(PLOT_FOLDER + HTML_FOLDER + name + ".html", "w+") as file:
         file.write(html)
 
     src = HTML_FOLDER + name + ".html"
-    element = f"""<iframe src="{src}" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>"""
+    element = f"""<iframe src="{src}" width="100%" height="400" scrolling="yes" seamless="seamless" frameborder="0"></iframe>"""
     with open(PLOT_FOLDER + ELEMENT_FOLDER + name + ".html", "w+") as file:
         file.write(element)
     if print_element:
@@ -131,8 +140,8 @@ def _nodes(node_positions, info_df=None):
 DEFAULT_NODE_OPTS = {
     "xaxis": None,
     "yaxis": None,
-    "width": 400,
     "height": 400,
+    "width": 400,
     "size": 10,
     "padding": 0.05,
     "show_legend": False,
@@ -204,8 +213,8 @@ def _graph_from_nx(
 DEFAULT_GRAPH_OPTS = {
     "xaxis": None,
     "yaxis": None,
-    "width": 400,
     "height": 400,
+    "width": 400,
     "node_size": 10,
     "edge_line_width": 1,
     "padding": 0.05,
@@ -286,26 +295,33 @@ LEGEND_OVERLAY_OPTS = {
 }
 
 
-def legend(names, colors, positions=None):
+def legend(names, colors, positions=None, columns=1):
     n = len(names)
-    x = np.zeros(n)
+    width = _max_width(names)
+    rows = int((n + 1) / columns)
+    x = np.arange(columns) * (width + 1)
+    x = np.repeat(x, rows)
+
     if positions is None:
-        y = np.arange(n)[::-1]
+        y = np.arange(rows)
+        y = np.tile(y, columns)[::-1]
     else:
         y = positions
-    df = pd.DataFrame({"x": x, "y": y, "name": names, "color": colors})
+
+    df = pd.DataFrame({"x": x[:n], "y": y[:n], "name": names, "color": colors})
 
     points = _legend_points(df)
     texts = _legend_texts(df)
-    width = _max_width(df)
     overlay_opts = LEGEND_OVERLAY_OPTS.copy()
-    overlay_opts.update({"xlim": (-1, width), "frame_height": n * 40})
+    overlay_opts.update(
+        {"xlim": (-1, (width + 1) * columns), "frame_height": rows * 40}
+    )
     overlay = hv.Overlay([points, *texts]).opts(**overlay_opts)
     return overlay
 
 
-def _max_width(df):
-    width = int(max(df["name"].map(len)) / 3)
+def _max_width(names):
+    width = int(max(map(len, names)) / 3)
     return width
 
 
@@ -330,10 +346,49 @@ def _legend_texts(df):
     return texts
 
 
-def group_legend(names=None, colors=None):
+def group_legend(names=None, colors=None, columns=1):
     if names is None:
         names = []
         colors = []
     names = [*list(metadata.GROUP_NAME_EN.values()), *names]
     colors = [*list(metadata.GROUP_COLOR.values()), *colors]
-    return legend(names, colors)
+    return legend(names, colors, columns=columns)
+
+
+CLOSENESS_OPTS = {
+    "color": "selected",
+    "show_legend": False,
+    "xlabel": None,
+    "xticks": None,
+    "xaxis": None,
+    "yaxis": None,
+    "tools": [hover_tool({"FullName": "", "GroupNameEN": ""})],
+}
+
+
+def closeness(party, graph, info, fc_info, centrality_function, show_yaxis):
+    closeness_df = _get_closeness(
+        graph, info, fc_info, centrality_function
+    ).sort_values("closeness")
+    closeness_df["index"] = closeness_df.index.values
+    columns = ["closeness", "selected", "FullName", "GroupNameEN"]
+    group = fc_info["Group"].iloc[0]
+    width = len(closeness_df) * 10
+    opts = CLOSENESS_OPTS.copy()
+    if show_yaxis:
+        opts["yaxis"] = True
+        opts["ylabel"] = "Harmonic Centrality"
+    return hv.Bars(
+        closeness_df, kdims=["index"], vdims=columns, label=party + " Centrality"
+    ).opts(width=width, cmap={0: metadata.GROUP_COLOR[group], 1: "pink"}, **opts)
+
+
+def _get_closeness(graph, councillor_df, selected_councillor_df, method):
+    new_df = councillor_df.copy()
+    new_df["closeness"] = np.array(
+        list(map(lambda x: round(x[1], 2), method(graph).items()))
+    )
+    new_df["selected"] = (
+        new_df["FullName"].isin(selected_councillor_df["FullName"]).astype(int)
+    )
+    return new_df

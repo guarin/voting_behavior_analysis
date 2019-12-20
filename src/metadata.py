@@ -93,16 +93,6 @@ GROUP_COLOR = {
     "-": "#DDDDDD",
 }
 
-# GROUP_ID = {
-#     "V": 0,
-#     "S": 1,
-#     "CE": 2,
-#     "RL": 3,
-#     "G": 4,
-#     "GL": 5,
-#     "BD": 6,
-#     "-": 7,
-# }
 # Maps party abbreviation to party color
 PARTY_COLOR = {
     "other": "#DDDDDD",
