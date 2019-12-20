@@ -19,7 +19,7 @@ Finally there are a few politicians that come from minor, mostly regional partie
 
 In order to first see whether the political parties make sense, we create a social network of politicians where every politician is connected to the politicians whose voting behavior is closest to theirs. If we plot this network and color it by parliamentary groups, it looks like this:
 
-<div style="text-align: center;"><iframe src="assets/html/party_assignment.html" width="100%" height="405" scrolling="yes" seamless="seamless" frameborder="0"></iframe></div>
+<div style="text-align: center;"><iframe src="assets/html/party_assignment.html" width="100%" height="425" scrolling="yes" seamless="seamless" frameborder="0"></iframe></div>
 <div style="text-align: center;"><iframe src="assets/html/party_assignment_legend.html" width="100%" height="160" scrolling="yes" seamless="seamless" frameborder="0"></iframe></div>
 
 We can already see that politicians within the same party strongly tend to be connected to members of their own party. 
@@ -28,7 +28,7 @@ Moreover, there are some interesting things that can be observed: First, the Gre
 
 Based on this network we try to divide the politicians into communities using the spectral clustering algorithm. Here are the results, visualized on the same graph as before with each color representing a community:
 
-<div style="text-align: center;"><iframe src="assets/html/spectral_clustering.html" width="100%" height="405" scrolling="no" seamless="seamless" frameborder="0"></iframe></div>
+<div style="text-align: center;"><iframe src="assets/html/spectral_clustering.html" width="100%" height="425" scrolling="no" seamless="seamless" frameborder="0"></iframe></div>
 
 We confirm what we already visually saw, that the political parties can be recovered very well just from the voting data. Sometimes, the parties are divided into one or more sub-clusters, which is due to the fact that the algorithm favors parties of the same size. Moreover, the politicians in the middle parties (Green Liberals, Liberal Democrats and Christian Democrats) are hard to tell apart. But the fact that we can recover the parties this robustly suggests that they do have a justification in Swiss politics.
 
@@ -52,6 +52,8 @@ The following graph shows where the federal councillors lie on the social networ
 <iframe src="assets/html/real_graph.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
 
 From the graph, it seems that none of the examples we have seen are very central to their party. Guy Parmelin is even at the edge of the group. This would indicate that having a voting pattern representative of one's party is not essential to be elected for the Federal Council. This can be further proven by ranking each members "closeness" to the rest of its party.  
+
+<iframe src="assets/html/centrality_plot.html" width="100%" height="400" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
 
 <img src="../docs/assets/image/closeness.svg" width="400"/>
 
