@@ -20,6 +20,7 @@ Finally there are a few politicians that come from minor, mostly regional partie
 In order to first see whether the political parties make sense, we create a social network of politicians where every politician is connected to the politicians whose voting behavior is closest to theirs. If we plot this network and color it by parliamentary groups, it looks like this:
 
 <iframe src="assets/html/party_assignment.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
+<iframe src="assets/html/party_assignment_legend.html" width="100%" height="500" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
 
 We can already see that politicians within the same party strongly tend to be connected to members of their own party. 
 
