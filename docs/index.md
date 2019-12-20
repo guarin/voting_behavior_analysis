@@ -87,7 +87,7 @@ To make our pick we make the following assumptions:
 
 We therefore split the National Council in seven subgroups and pick the most central politican in each of them. This results in a set of federal councillors for the upcoming legislative that might be more representative that the one that got elected. Each group is represented by a color, federal councillors are shown in pink:
 
-<div style="text-align: center;"><iframe src="assets/html/next_legislative_pick.html" width="100%" height="420" scrolling="no" seamless="seamless" frameborder="0"></iframe><</div>
+<div style="text-align: center;"><iframe src="assets/html/next_legislative_pick.html" width="100%" height="420" scrolling="no" seamless="seamless" frameborder="0"></iframe></div>
 
 
 There is no overlap between our pick and the current federal councillors. None of "our" councillors were even a candidate at a Federal Council election. This indicates that our way of selecting an executive power is quite different from what is currently implemented. We also see that no member of the Green Party is part of our pick, even though a member of the Green Liberal Party (PVL) who historically never had a federal councillor make it into the list.
