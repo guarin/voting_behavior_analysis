@@ -116,12 +116,6 @@ Part 1:
 
 Part 2:
 
--   Visualization of general attendance compared to attendance to one's own party proposed votation
-
--   Visualization proportion of "yes" to one's own party proposed votation compared to rest of votations
-
-Part 3:
-
 -   Analyze political positions of politicians who later entered the federal council
 
 -   Determine ideal members of federal council as cluster means when performing k-means clustering with k=7.
