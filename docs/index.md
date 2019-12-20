@@ -76,7 +76,7 @@ We therefore split the national council in 7 subgroups and picked the most centr
 
 <iframe src="assets/html/next_legislative_pick.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
 
-There is no overlap between out pick and the current federal councillors. None of our counselors were even a candidate at a federal council election. This indicates that this way of selected an executive power is quite different from what is currently implemented. We also see that no member of the Green Party is part of our pick, even though a member of the Green Liberal (PVL) who historically never had a federal councillor did make it into the list.
+There is no overlap between our pick and the current federal councillors. None of "our" councillors were even a candidate at a federal council election. This indicates that this way of selecting an executive power is quite different from what is currently implemented. We also see that no member of the Green Party is part of our pick, even though a member of the Green Liberal (PVL) who historically never had a federal councillor did make it into the list.
 
 This choice is limited by the fact that it is only representative of the national council and not the council of state. However, since the national council is the one responsible for keeping the interests of the population and is directly elected by the people, we can assume that it is representative of the population. 
 
@@ -90,9 +90,9 @@ The need of political party in Switzerland can be challenged by looking the vote
 
 Of the two common justification for their existence, only one seem to hold up. 
 
-Swiss political party do regroup politicians of similar opinions. Regrouping people voting in a similar way is equal to regrouping people by their party membership. 
+Swiss political party do regroup politicians of similar opinions. Regrouping people that votes in a similar way results in regrouping people by their party membership. 
 
-However, they are not needed to form a government. The politicians that get elected are not a good representation of the party they belong to. Furthermore, they are criticized for also being unrepresentative of the general population . By assuming that the national council is more representative of the population, a pick that doesn't take into account the political party can be performed, contracting the second common justification for political party existence. 
+However, they are not needed to form a government. The politicians that get elected are not a good representation of the party they belong to. Furthermore, they are criticized for being unrepresentative of the general population . By assuming that the national council is more representative of the population, a pick that doesn't take into account the political party can be performed, contradicting the second common justification for political party existence. 
 
 
 
