@@ -17,51 +17,57 @@ Finally there are a few politicians that come from minor, mostly regional partie
 
 # Recovering Political Parties
 
-In order to first see whether the political parties make sense, we create a social network of politicians where every politician is connected to the politicians whose voting behavior is closest to theirs. Based on this network we try to divide the politicians into communities using the spectral clustering algorithm. We visualize this on a two-dimensional representation of the network, where nodes are closer to each other if they are closer on the network. 
+In order to first see whether the political parties make sense, we create a social network of politicians where every politician is connected to the politicians whose voting behavior is closest to theirs. If we plot this network and color it by parliamentary groups, it looks like this:
 
-Here are the results of the spectral clustering, followed by the true parliamentary group of the politician.
-
-<iframe src="assets/html/spectral_clustering.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
 <iframe src="assets/html/party_assignment.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
 
+We can already see that politicians within the same party strongly tend to be connected to members of their own party. 
 
-We see that the clustering consistently splits the conservative party (UDC) into two fractions. Moreover, the green party seems to get increasingly close to the socialdemocratic party with the two being indistinguishable towards the end. Other than some politicians in the middle of the political spectrum, the clustering seems to do a very good job in recovering the political parties.
+Moreover, there are some interesting things that can be observed: First, the Green Party (PES, in light green) has become very close to the Socialist Party (PSS, in red) in the last legislature, making it hard to distinguish. Moreover, the Green Liberal Party (PVL, in purple) is very isolated in the second legislative period. This is probably due to the fact that this was the first period during which they were represented in parliament, and thus they tried to vote very similarly in order to gain profile and to achieve their goals. However, they've since gotten closer to the political middle, consisting of the Liberal Democrats (yellow) and Christian Democrats (orange).
 
+Based on this network we try to divide the politicians into communities using the spectral clustering algorithm. Here are the results, visualized on the same graph as before:
 
+<iframe src="assets/html/spectral_clustering.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
 
-
+We confirm what we already visually saw, that the political parties can be recovered very well just from the voting data. Sometimes, the parties are divided into one or more sub-clusters, which is due to the fact that the algorithm favors parties of the same size. Moreover, the politicians in the middle parties (Green Liberals, Liberal Democrats and Christian Democrats) are hard to tell apart. But the fact that we can recover the parties this robustly suggests that they do have a justification in Swiss politics.
 
 # Picking an Executive Power 
 
-In Switzerland the executive branch of government consists of a council of seven people, which are chosen to equally represent the entire voting population and is called the Federal Council. They are elected by the federal assembly (National Council as well as the Council of States). We are interested in finding out if their pick can be justified by our data. 
+In Switzerland the executive branch of government consists of a council of seven people, which are chosen to equally represent the entire voting population and is called the Federal Council. Party membership is very important in its constitution: It is an unwritten rule that every major party has a "right" to one or more federal councillors according to their share of the popular vote, in order to properly represent the will of the Swiss people. 
 
-There is no obvious reason why a member of the council is elected over another, although it seems from the media coverage that the party of a candidate plays a major role.
+## The (Un-)Importance of Centrality
 
- Does the assumption of relevance of party membership holds under the light of our analysis? 
- 
- Assessing if the political party really weighted in the federal assembly decision is a complex and ambiguous task and could be tackled in many different ways. We assumed that if the party membership was a key element, the elected member would be representative of his party, which we simplify as being "central" in the cluster of the party. To test the sub-mentioned assumption, we look at the votes of members of the National Council in the legislature preceding their election to the Federal Council to see whether they could be considered as "central" at the time of the elections.
-
-The politicans for which we have data available are:
+We first investigate who is chosen to become members of the executive: One would think that a federal councillor should be particularly central to their party, in order to well represent the party interest. To this effect, we look at the following four politicians which were simultaneously in the national council during the 2007-2011 legislative period:
 
 - Parmelin Guy (UDC) in function as federal councillor from 2016
-
 - Schneider-Ammann Johann N. (PLR) federal councillor from 2010 to 2018
-
 - Amherd Viola (PDC) in function as federal councillor from 2010
+- Cassis Ignazio (PLR) in function  as federal councillor from 2017 
 
-- Cassis Ignazio (PLR) in function  as federal councillor from 2017
+Note that the fact that we only have this few future federal councillors in our data somewhat limit the conclusions that can be drawn from our analysis.
 
-Our analysis will be limited by the fact that only 4 federal councillors voting record are in the database. Therefore the conclusions drawn from our analysis should be taken with a grain of salt. We chose here to only look at information from the first legislature as it is the only one where all councillors are present.
+The following graph shows where the federal councillors lie on the social network:
 
-## Visualizing Centrality
 <iframe src="assets/html/real_graph.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
-From the graph, it seems that none of the examples we have seen are very central in their party. Guy Parmelin is even at the edge of the group. This would indicate that having a voting pattern representative of one's party is not essential to be elected for the Federal Council. This can be further proven by ranking each members "closeness" to the rest of its party.  
+
+From the graph, it seems that none of the examples we have seen are very central to their party. Guy Parmelin is even at the edge of the group. This would indicate that having a voting pattern representative of one's party is not essential to be elected for the Federal Council. This can be further proven by ranking each members "closeness" to the rest of its party.  
 
 <img src="../docs/assets/image/closeness.svg" width="400"/>
 
-None of the elected councillors seem to have a voting pattern that is very representative of their political party. If a party would want one of their members to represent them in the Federal Founcil, they would probably vote for the most representative politician in their ranks. Our findings suggest that this is not the case. This is therefore in opposition with the way the media depicts the election. The interpretability of those results is of course very limited by the scarcity of the data. 
+None of the elected councillors (maybe with the exception of Ignazio Cassis) seem to have a voting pattern that is very representative of their political party. The reason for this is likely the fact that the federal council is elected by the entire political spectrum, and not only the politicians party. Take the case of the politician of the right party, Guy Parmelin: He likely was able to become elected *because* he isn't representative of his party. This means that in some cases, the way the federal councillors are chosen doesn't lead to a good representation of the will of the Swiss voters. 
+
+If a party would want one of their members to represent them in the Federal Founcil, they would probably vote for the most representative politician in their ranks. Our findings suggest that this is not the case. This is therefore in opposition with the way the media depicts the election. The interpretability of those results is of course very limited by the scarcity of the data. 
 
 ## A Better Alternative
+
+Having seen that the way the politicians are chosen is sub-optimal, we ask whether we can find a better way to choose the federal council. Note that this is very relevant today: Since the green party (PES) has gained many seats in the last election, they now also want a seat in the federal council. According to <a href="https://www.nzz.ch/schweiz/bunderatswahlen-die-zauberformel-verliert-ihre-magie-ld.1518450#subtitle-3-heute-2-2-2-1-passt-nicht-mehr-second">this article</a>, more voters aren't represented in the executive than ever before.
+
+We therefore suggest another, data-driven alternative for choosing the federal council. To make our pick we make the following assumptions:
+
+
+
+
+
 The generally accepted idea that a politician is elected to the Federal Council mostly based on his/her political party is challenged by our previous results. Yet, this is a key argument in all debates surrounding the elections. This is even more true now, as the recent election for the Federal Council has raised a new controversy. The new council is criticized for not being representative enough of the current swiss political landscape. The major issue is the continued absence of councillors from the Green Party (PES), which has significantly grown in size in the last decade.
 
 We make the claim that we can make a pick that is not based on political party, but simply on the voting pattern of the national councillors. Of course the executive power is not only chosen from the national council, so our solution is not optimal.
@@ -75,24 +81,19 @@ To make our pick we make the following assumptions:
 We therefore split the National Council in seven subgroups and pick the most central politican in each of them. This results in a set of federal councillors for the upcoming legislative that might be more representative that the one that got elected. 
 
 <iframe src="assets/html/next_legislative_pick.html" width="100%" height="500" scrolling="no" seamless="seamless" frameborder="0"></iframe>
-
 There is no overlap between our pick and the current federal councillors. None of "our" councillors were even a candidate at a Federal Council election. This indicates that our way of selecting an executive power is quite different from what is currently implemented. We also see that no member of the Green Party is part of our pick, even though a member of the Green Liberal Party (PVL) who historically never had a federal councillor make it into the list.
 
-This choice is limited by the fact that it is only representative of the National Council and not the Council of States. However, since the National Council is the one responsible for keeping the interests of the population and is directly elected by the people, we can assume that it is representative of the population. 
-
-A remaining issue is that this pick is only taking into account national councillors and not state councillors which are also often candidates. 
+This choice is limited by the fact that it is only suggests national councillors for becoming members of the executive, even though in practice several members of the Council of States also move to the Federal Council. Moreover, we could only suggest the next federal council based on the previous legislative period. Large shifts in seats hence would only be represented in the executive 4 years later. This is however in the interest of Swiss democracy, which has a strong focus on ensuring continuity and to prevent rapid changes making the political system unstable. Finally, other considerations are important for choosing the federal council, such as the region of origin or the gender. 
 
 If there is no way of knowing that this pick would make a good executive power, it would at least be a bold new choice. 
 
 ## Conclusion 
 
-The need of political parties in Switzerland can be challenged by looking at the votes of some of the members of the legislative power over 12 years. 
-
-The two common for their existance is Of the two common justifications for their existence, only one seems to hold up. 
+The need of political parties in Switzerland can be challenged by looking at the votes of some of the members of the legislative power over 12 years. Of the two common justifications for their existence, only one seems to hold up. 
 
 Swiss political parties do regroup politicians of similar opinions. Regrouping people that vote in a similar way results in regrouping people by their party membership. 
 
-However, they are not needed to form a government. The politicians that get elected are not a good representation of the party they belong to. Furthermore, they are criticized for being unrepresentative of the general population. By assuming that the National Council is more representative of the population, a pick that does not take into account the political party can be performed, contradicting the second common justification for political parties existence. 
+However, they are not needed to form a government. The politicians that get elected are not a good representation of the party they belong to. Furthermore, they are criticized for being unrepresentative of the general population. We have suggested a new way to select the executive branch, which would better represent the interest of the Swiss people. 
 
 
 
