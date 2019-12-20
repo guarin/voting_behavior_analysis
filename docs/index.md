@@ -53,7 +53,8 @@ The following graph shows where the federal councillors lie on the social networ
 
 From the graph, it seems that none of the examples we have seen are very central to their party. Guy Parmelin is even at the edge of the group. This would indicate that having a voting pattern representative of one's party is not essential to be elected for the Federal Council. This can be further proven by ranking each members "closeness" to the rest of its party.  
 
-<iframe src="assets/html/centrality_plot.html" width="100%" height="400" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
+<iframe src="assets/html/centrality_plot_0.html" width="100%" height="400" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
+<iframe src="assets/html/cnetrality_plot_1.html" width="100%" height="400" scrolling="yes" seamless="seamless" frameborder="0"></iframe>
 
 <img src="../docs/assets/image/closeness.svg" width="400"/>
 
