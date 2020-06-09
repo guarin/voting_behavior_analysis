@@ -1,6 +1,6 @@
 # Swiss Political Parties : a Study of Relevance.
-## [Website](https://gfepfl.github.io/voting-behavior-analysis/)
-## [Notebook](https://gfepfl.github.io/voting-behavior-analysis/notebook)
+## [Website](https://gfepfl.github.io/voting_behavior_analysis/)
+## [Notebook](https://gfepfl.github.io/voting_behavior_analysis/notebook)
 
 ## Abstract
 
@@ -128,7 +128,7 @@ Part 2:
 Milestone 2 work can be found under src/milestone2.ipynb 
 
 ## Milestone 3
-Milestone 3 work can be found at https://gfepfl.github.io/voting-behavior-analysis/notebook
+Milestone 3 work can be found at https://gfepfl.github.io/voting_behavior_analysis/notebook
 
 ## Contributions
 - Matthias Minder: Initial Data Analysis (Clustering), Natural Language Processing, Data Story, Poster
