@@ -1,6 +1,6 @@
 # Swiss Political Parties : a Study of Relevance.
-## [Website](https://gfepfl.github.io/voting_behavior_analysis/)
-## [Notebook](https://gfepfl.github.io/voting_behavior_analysis/notebook)
+## [Website](https://guarin.github.io/voting_behavior_analysis/)
+## [Notebook](https://guarin.github.io/voting_behavior_analysis/notebook)
 
 ## Abstract
 
